@@ -3,9 +3,9 @@ import { FaStar } from 'react-icons/fa6';
 import { MdReviews } from 'react-icons/md';
 import { useLoaderData, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import baseURL from '../api/apiLink';
-import NotFound from '../ui/NotFound';
-import ReviewChart from '../ui/ReviewChart';
+import baseURL from '../api/baseURL';
+import NotFound from '../components/NotFound';
+import ReviewChart from '../components/ReviewChart';
 
 const AppCardDetails = () => {
   const navigate = useNavigate();

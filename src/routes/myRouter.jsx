@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router';
 import Root from '../Root';
+import baseURL from '../api/baseURL';
 import AllApps from '../pages/AllApps';
+import AppCardDetails from '../pages/AppCardDetails';
 import ErrorPage from '../pages/ErrorPage';
 import Home from '../pages/Home';
 import Installations from '../pages/Installations';
@@ -16,10 +18,16 @@ const myRouter = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+        loader: () => fetch(`${baseURL}/apps`),
       },
       {
-        path: '/allApps',
+        path: '/apps',
         element: <AllApps></AllApps>,
+      },
+      {
+        path: '/appDetails/:id',
+        element: <AppCardDetails></AppCardDetails>,
+        loader: ({ params }) => fetch(`${baseURL}/apps/${params.id}`),
       },
       {
         path: '/installations',

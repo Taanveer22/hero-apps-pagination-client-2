@@ -18,7 +18,7 @@ const AppCard = ({ appItem }) => {
   } = appItem;
   return (
     <Link
-      to={`/apps/${_id}`}
+      to={`/appDetails/${_id}`}
       className="card shadow-lg cursor-pointer bg-white hover:bg-base-200 hover:-translate-y-2 transition-all duration-200 justify-around p-4 gap-4"
     >
       <figure className=" pb-0">

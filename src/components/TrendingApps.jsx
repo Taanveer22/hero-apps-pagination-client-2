@@ -1,10 +1,8 @@
 import { FiTrendingUp } from 'react-icons/fi';
-import { Link, useLoaderData } from 'react-router';
+import { Link } from 'react-router';
 import AppCard from './AppCard';
 
-const TrendingApps = () => {
-  const { apps } = useLoaderData();
-
+const TrendingApps = ({ apps }) => {
   return (
     <div>
       <div className="">
