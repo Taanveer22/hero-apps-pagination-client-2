@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import baseURL from '../api/baseURL';
 import NotFound from '../components/NotFound';
 import ReviewChart from '../components/ReviewChart';
+import fireConfetti from '../utils/fireConfetti';
 
 const AppCardDetails = () => {
   const navigate = useNavigate();
@@ -37,8 +38,11 @@ const AppCardDetails = () => {
         // console.log(data);
         if (data?.insertedId) {
           toast.success('app installed successfully');
+          fireConfetti();
+          setTimeout(() => {
+            navigate('/installations');
+          }, 3000);
         }
-        navigate('/installations');
       });
   };
 
