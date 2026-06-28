@@ -4,20 +4,24 @@ import baseURL from '../api/baseURL';
 import AppCard from '../components/AppCard';
 
 const AllApps = () => {
+  // pagiantion state
   const [appsData, setAppsData] = useState([]);
+  const [limit, setLimit] = useState(10);
   const [countApps, setCountApps] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  // sort state
   const [sortField, setSortField] = useState('size');
   const [sortOrder, setSortOrder] = useState('asc');
-  const limit = 10;
+  // search state
+  const [searchText, setSearchText] = useState('');
 
   const paginationPages = [...Array(totalPages).keys()];
   // console.log(paginationPages);
 
   useEffect(() => {
     fetch(
-      `${baseURL}/apps?limit=${limit}&skip=${currentPage * limit}&sortField=${sortField}&sortOrder=${sortOrder}`
+      `${baseURL}/apps?limit=${limit}&skip=${currentPage * limit}&sortField=${sortField}&sortOrder=${sortOrder}&searchText=${searchText}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -27,17 +31,34 @@ const AllApps = () => {
         const requiredPages = Math.ceil(data?.countApps / limit);
         setTotalPages(requiredPages);
       });
-  }, [currentPage, sortField, sortOrder]);
+  }, [limit, currentPage, sortField, sortOrder, searchText]);
+
+  const handleLimitChange = (e) => {
+    console.log(e.target.value);
+    console.log(typeof e.target.value);
+    setLimit(Number(e.target.value));
+    // ✅ Reset to first page after limit change
+    setCurrentPage(0);
+  };
 
   const handleSortChange = (e) => {
     const sortText = e.target.value;
     console.log(sortText);
     setSortField(sortText.split('-')[0]);
     setSortOrder(sortText.split('-')[1]);
+    // ✅ Reset to first page after sort
+    setCurrentPage(0);
+  };
+
+  const handleSearchTextChange = (e) => {
+    console.log(e.target.value);
+    setSearchText(e.target.value);
+    // ✅ Reset to first page after search
+    setCurrentPage(0);
   };
 
   return (
-    <section>
+    <section className="w-11/12 mx-auto">
       <title>All Apps | Hero Apps</title>
 
       {/* Header */}
@@ -52,7 +73,7 @@ const AllApps = () => {
       </div>
 
       {/* Search and Count and Sort */}
-      <div className="w-11/12 mx-auto flex flex-col-reverse lg:flex-row gap-5 items-start justify-between lg:items-end mt-10">
+      <div className="flex flex-col-reverse lg:flex-row gap-5 items-start justify-between lg:items-end mt-10">
         <div>
           <h2 className="text-lg underline font-bold">({appsData.length}) Apps Found</h2>
         </div>
@@ -75,7 +96,12 @@ const AllApps = () => {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" className="" placeholder="Search Apps" />
+            <input
+              onChange={handleSearchTextChange}
+              type="search"
+              className="input"
+              placeholder="Search Apps"
+            />
           </label>
         </form>
 
@@ -97,42 +123,56 @@ const AllApps = () => {
           </select>
         </div>
       </div>
-      <>
-        {/* Apps Grid */}
-        <div className="w-11/12 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-10 gap-5">
-          {appsData.length === 0 ? (
-            <div className="col-span-full text-center py-10 space-y-10">
-              <h2 className="text-6xl font-semibold opacity-60">No Apps Found</h2>
-              <button className="btn btn-primary">Show All Apps</button>
-            </div>
-          ) : (
-            appsData.map((appItem) => <AppCard key={appItem.id} appItem={appItem}></AppCard>)
-          )}
-        </div>
 
-        {/* Pagination Buttons */}
-        <div className="flex gap-5 flex-wrap justify-center">
-          {currentPage > 0 && (
-            <button onClick={() => setCurrentPage(currentPage - 1)} className="btn btn-soft">
-              Prev
-            </button>
-          )}
-          {paginationPages.map((pageItem) => (
-            <button
-              onClick={() => setCurrentPage(pageItem)}
-              key={pageItem}
-              className={`btn  ${pageItem === currentPage ? 'btn-primary' : 'btn-soft'}`}
-            >
-              {pageItem}
-            </button>
-          ))}
-          {currentPage < totalPages - 1 && (
-            <button onClick={() => setCurrentPage(currentPage + 1)} className="btn btn-soft">
-              Next
-            </button>
-          )}
-        </div>
-      </>
+      {/* Apps Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-10 gap-5">
+        {appsData.length === 0 ? (
+          <div className="col-span-full text-center py-10 space-y-10">
+            <h2 className="text-6xl font-semibold opacity-60">No Apps Found</h2>
+            <button className="btn btn-primary">Show All Apps</button>
+          </div>
+        ) : (
+          appsData.map((appItem) => <AppCard key={appItem.id} appItem={appItem}></AppCard>)
+        )}
+      </div>
+
+      {/* items per page */}
+      <div className="flex justify-center items-center gap-2 mb-6">
+        <span className="text-primary text-md font-medium">Items per page</span>
+        <select onChange={handleLimitChange} value={limit} className="select select-bordered">
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
+        </select>
+      </div>
+
+      {/* Pagination Buttons */}
+      <div className="flex gap-5 flex-wrap justify-center">
+        {/* prev btn */}
+        {currentPage > 0 && (
+          <button onClick={() => setCurrentPage(currentPage - 1)} className="btn btn-soft">
+            Prev
+          </button>
+        )}
+        {/* number btn */}
+        {paginationPages.map((pageItem) => (
+          <button
+            onClick={() => setCurrentPage(pageItem)}
+            key={pageItem}
+            className={`btn  ${pageItem === currentPage ? 'btn-primary' : 'btn-soft'}`}
+          >
+            {pageItem}
+          </button>
+        ))}
+        {/* next btn */}
+        {currentPage < totalPages - 1 && (
+          <button onClick={() => setCurrentPage(currentPage + 1)} className="btn btn-soft">
+            Next
+          </button>
+        )}
+        {}
+      </div>
     </section>
   );
 };
