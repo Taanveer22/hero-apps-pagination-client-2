@@ -26,10 +26,11 @@ const AllApps = () => {
   }, [currentPage]);
 
   return (
-    <div>
+    <section>
       <title>All Apps | Hero Apps</title>
+
       {/* Header */}
-      <div className="">
+      <div>
         <h2 className="text-4xl font-bold text-center text-primary flex justify-center gap-3">
           All Applications {countApps}
           <DiVisualstudio size={48} className="text-secondary"></DiVisualstudio>
@@ -66,6 +67,7 @@ const AllApps = () => {
             <input type="search" className="" placeholder="Search Apps" />
           </label>
         </form>
+
         <div>
           <select className="select bg-white" defaultValue={'Sort by R / S / D'}>
             <option value={'Sort by R / S / D'} disabled={true}>
@@ -95,18 +97,28 @@ const AllApps = () => {
 
         {/* Pagination Buttons */}
         <div className="flex gap-5 flex-wrap justify-center">
+          {currentPage > 0 && (
+            <button onClick={() => setCurrentPage(currentPage - 1)} className="btn btn-soft">
+              Prev
+            </button>
+          )}
           {paginationPages.map((pageItem) => (
             <button
               onClick={() => setCurrentPage(pageItem)}
               key={pageItem}
-              className="btn btn-soft"
+              className={`btn  ${pageItem === currentPage ? 'btn-primary' : 'btn-soft'}`}
             >
               {pageItem}
             </button>
           ))}
+          {currentPage < totalPages - 1 && (
+            <button onClick={() => setCurrentPage(currentPage + 1)} className="btn btn-soft">
+              Next
+            </button>
+          )}
         </div>
       </>
-    </div>
+    </section>
   );
 };
 
