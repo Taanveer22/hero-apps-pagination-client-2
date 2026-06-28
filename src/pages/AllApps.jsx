@@ -8,13 +8,17 @@ const AllApps = () => {
   const [countApps, setCountApps] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [sortField, setSortField] = useState('size');
+  const [sortOrder, setSortOrder] = useState('asc');
   const limit = 10;
 
   const paginationPages = [...Array(totalPages).keys()];
   // console.log(paginationPages);
 
   useEffect(() => {
-    fetch(`${baseURL}/apps?limit=${limit}&skip=${currentPage * limit}`)
+    fetch(
+      `${baseURL}/apps?limit=${limit}&skip=${currentPage * limit}&sortField=${sortField}&sortOrder=${sortOrder}`
+    )
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -23,7 +27,14 @@ const AllApps = () => {
         const requiredPages = Math.ceil(data?.countApps / limit);
         setTotalPages(requiredPages);
       });
-  }, [currentPage]);
+  }, [currentPage, sortField, sortOrder]);
+
+  const handleSortChange = (e) => {
+    const sortText = e.target.value;
+    console.log(sortText);
+    setSortField(sortText.split('-')[0]);
+    setSortOrder(sortText.split('-')[1]);
+  };
 
   return (
     <section>
@@ -32,7 +43,7 @@ const AllApps = () => {
       {/* Header */}
       <div>
         <h2 className="text-4xl font-bold text-center text-primary flex justify-center gap-3">
-          All Applications {countApps}
+          All Apps {countApps}
           <DiVisualstudio size={48} className="text-secondary"></DiVisualstudio>
         </h2>
         <p className="text-center text-gray-400">
@@ -69,7 +80,11 @@ const AllApps = () => {
         </form>
 
         <div>
-          <select className="select bg-white" defaultValue={'Sort by R / S / D'}>
+          <select
+            onChange={handleSortChange}
+            className="select bg-white"
+            defaultValue={'Sort by R / S / D'}
+          >
             <option value={'Sort by R / S / D'} disabled={true}>
               Sort by R / S / D
             </option>
