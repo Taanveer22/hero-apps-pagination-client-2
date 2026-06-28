@@ -3,7 +3,7 @@ import hero from '../assets/hero.png';
 const Banner = () => {
   return (
     <div className="">
-      <div className="flex flex-col  justify-center items-center md:w-11/12 mx-auto pt-10  pb-0">
+      <div className="flex flex-col justify-center items-center md:w-11/12 mx-auto">
         <div className="space-y-5  text-center">
           <h2 className="text-4xl md:text-6xl font-bold leading-20 md:max-w-xl mx-auto">
             We Build <span className="text-secondary"> Productive</span>

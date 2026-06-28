@@ -36,7 +36,7 @@ const Installations = () => {
   };
 
   return (
-    <div className="px-5 lg:w-11/12 mx-auto py-10">
+    <div className="px-5 lg:w-11/12 mx-auto">
       <title>My Installations</title>
       <div className="">
         <h2 className="text-4xl font-bold text-center text-primary flex justify-center gap-3">

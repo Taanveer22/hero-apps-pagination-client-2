@@ -23,7 +23,7 @@ const Root = () => {
       <header>
         <Header></Header>
       </header>
-      <main className="min-h-screen">
+      <main className="min-h-screen my-12">
         <Outlet></Outlet>
       </main>
       <footer>

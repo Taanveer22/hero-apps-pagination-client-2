@@ -2,7 +2,7 @@ import { FiTrendingUp } from 'react-icons/fi';
 import { Link } from 'react-router';
 import AppCard from './AppCard';
 
-const TrendingApps = ({ apps }) => {
+const TrendingApps = ({ appsData }) => {
   return (
     <div>
       <div className="">
@@ -15,7 +15,7 @@ const TrendingApps = ({ apps }) => {
         </p>
       </div>
       <div className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 my-10 gap-5">
-        {apps.map((appItem) => (
+        {appsData.map((appItem) => (
           <AppCard key={appItem.id} appItem={appItem}></AppCard>
         ))}
       </div>

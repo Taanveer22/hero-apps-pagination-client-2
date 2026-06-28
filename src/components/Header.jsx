@@ -21,7 +21,7 @@ const Header = () => {
 
       <li>
         <NavLink to="/installations" className="text-gray-500 font-semibold">
-          <MdInstallDesktop size={20} /> Installation
+          <MdInstallDesktop size={20} /> Installations
         </NavLink>
       </li>
     </>
