@@ -18,7 +18,7 @@ const myRouter = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
-        loader: () => fetch(`${baseURL}/apps`),
+        loader: () => fetch(`${baseURL}/apps?limit=8`),
       },
       {
         path: '/apps',
